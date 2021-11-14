@@ -1,7 +1,7 @@
 from flask import Flask, send_file, request
-from tqdm import tqdm
+#from tqdm import tqdm
 from PIL import Image
-import os
+#import os
 import time
 from io import BytesIO
 
@@ -14,6 +14,7 @@ def home_page():
 
 @app.route('/color/<color>')
 def show_colow(color):
+    now = time.perf_counter()
     try:
         num = int(color, base=16)
     except ValueError:
@@ -24,6 +25,7 @@ def show_colow(color):
     img_byte_arr = BytesIO()
     im.save(img_byte_arr, format='PNG')
     img_byte_arr.seek(0)
+    print(f"Image generated in {round(time.perf_counter() - now, 5)}s")
     return send_file(img_byte_arr, mimetype='image/png')
 
 if __name__ == '__main__':
