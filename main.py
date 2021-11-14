@@ -14,6 +14,8 @@ def home_page():
 
 @app.route('/color/<color>')
 def show_colow(color):
+    while len(color) < 6:
+        color = '0' + color
     now = time.perf_counter()
     try:
         num = int(color, base=16)
@@ -21,7 +23,7 @@ def show_colow(color):
         return '<h1>You did not provide a proper hex.</h1>'
     if num < 0 or num > 16777215:
         return '<h1>You did not provide a proper hex.</h1>'
-    im = Image.new(mode="RGB", size=(300, 300), color=num)
+    im = Image.new(mode="RGB", size=(300, 300), color="#"+color)
     img_byte_arr = BytesIO()
     im.save(img_byte_arr, format='PNG')
     img_byte_arr.seek(0)
